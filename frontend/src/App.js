@@ -19,11 +19,18 @@ function App() {
     setData(null);
     fetch(`${API_URL}/summarize?prompt=${prompt}`)
       .then((res) => res.json())
-      .then((data) => setData(`${data.generations[0].text.slice(0, -2)}`));
-    setPrediction(null);
-    fetch(`${API_URL}/classify?prompt=${data}`)
-      .then((res) => res.json())
-      .then((data) => setPrediction(data.classifications[0].prediction));
+      .then((data) => {
+        setData(`${data.generations[0].text.slice(0, -2)}`);
+        setPrediction(null);
+
+        fetch(
+          `${API_URL}/classify?prompt=${data.generations[0].text.slice(0, -2)}`
+        )
+          .then((res) => res.json())
+          .then((data) =>
+            setPrediction(JSON.stringify(data.classifications[0].prediction))
+          );
+      });
   };
 
   return (
