@@ -38,3 +38,61 @@ app.get("/summarize", async (req, res) => {
   });
   res.json(response.body);
 });
+
+app.get("/classify", async (req, res) => {
+  const response = await cohere.classify({
+    model: "large",
+    inputs: [req.query.prompt],
+    examples: [
+      {
+        text: "New Era Begins at Warner Bros. Tinged with Nostalgia",
+        label: "Technology",
+      },
+      {
+        text: "As Gas Prices Went Up, So Did the Hunt for Electric Vehicles",
+        label: "Technology",
+      },
+      { text: "Facial Recognition Goes to War", label: "Technology" },
+      {
+        text: "US Says It Secretly Removed Malware Worldwide",
+        label: "Technology",
+      },
+      { text: "The Old-Timers Are Chasing Netflix", label: "Technology" },
+      {
+        text: "Few Cars, Lots of Customers: Why Autos Are an Inflation Risk",
+        label: "Economy",
+      },
+      {
+        text: "Supply Chains Widely Tainted by Forced Labour in China",
+        label: "Economy",
+      },
+      {
+        text: "The US Economy is Booming. Why are Economists Worrying About a Recession?",
+        label: "Economy",
+      },
+      {
+        text: "Industries hit hard by the pandemic continued their rebound",
+        label: "Economy",
+      },
+      {
+        text: "Energy prices in Europe soar 45 percent as inflation hits another record",
+        label: "Economy",
+      },
+      {
+        text: "New Drug Slashed Deaths Among Patients With Severe Covid, Maker Claims",
+        label: "Health",
+      },
+      { text: "Is 30 minutes of Exercise a Day Enough?", label: "Health" },
+      {
+        text: "With a $2.1 Million Cure Their Only Hope, Parents Plead for Help Online",
+        label: "Health",
+      },
+      {
+        text: "The FDA suspends use of a Glaxo antibody drug in the US as an Omnicron subvariant spreads",
+        label: "Health",
+      },
+      { text: "What to know about the Bird Flu Outbreak", label: "Health" },
+    ],
+  });
+  res.json(response.body);
+});

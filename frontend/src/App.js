@@ -5,6 +5,7 @@ function App() {
 
   const [data, setData] = useState(null);
   const [prompt, setPrompt] = useState("");
+  const [prediction, setPrediction] = useState("");
 
   // Update prompt variable when handleChange is called
   const handleChange = (e) => {
@@ -13,21 +14,25 @@ function App() {
 
   // When handleSubmit is called, passes prompt to /api and then gets assigns response to data
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setData(null);
     fetch(`${API_URL}/summarize?prompt=${prompt}`)
       .then((res) => res.json())
       .then((data) => setData(`${data.generations[0].text.slice(0, -2)}`));
+    setPrediction(null);
+    fetch(`${API_URL}/classify?prompt=${data}`)
+      .then((res) => res.json())
+      .then((data) => setPrediction(data.classifications[0].prediction));
   };
 
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Trivia Generator</h1>
+        <h1>Summarizer</h1>
         <form onSubmit={handleSubmit}>
           <label>
-            Give me a topic: <br />
+            Enter a passage of text to summarize: <br />
             <textarea
               name="input-box"
               rows="5"
@@ -41,6 +46,7 @@ function App() {
         </form>
         <h1>Result:</h1>
         <h3>{!data ? "Question will appear here." : data}</h3>
+        <h3>{!prediction ? "Category" : prediction}</h3>
       </header>
     </div>
   );
