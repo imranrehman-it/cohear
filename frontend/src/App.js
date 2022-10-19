@@ -18,7 +18,7 @@ function App() {
     setData(null);
     fetch(`${API_URL}/summarize?prompt=${prompt}`)
       .then((res) => res.json())
-      .then((data) => setData(`${data.generations[0].text.slice(0, -1)}`));
+      .then((data) => setData(`${data.generations[0].text.slice(0, -2)}`));
   };
 
   return (
