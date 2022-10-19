@@ -16,7 +16,7 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setData(null);
-    fetch(`${API_URL}/api?prompt=${prompt}`)
+    fetch(`${API_URL}/summarize?prompt=${prompt}`)
       .then((res) => res.json())
       .then((data) => setData(`${data.generations[0].text.slice(0, -1)}`));
   };
