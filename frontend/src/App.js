@@ -44,15 +44,6 @@ function App() {
       });
   };
 
-  const handleSummarize = async (e, article) => {
-    fetch(`${API_URL}/summarize?prompt=${article}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setSummary(`${data.generations[0].text.slice(0, -2)}`);
-        console.log(`${data.generations[0].text.slice(0, -2)}`);
-      });
-  };
-
   return (
     <div className="App">
       <header className="App-header">

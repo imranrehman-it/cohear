@@ -26,9 +26,9 @@ def members():
             if (a.text.find("Audience Relations, CBC") != -1):
                 break
             else:
-                article = article + a.text + "link_to_article:" + url
+                article = article + a.text
 
-        return article
+        return article + "link_to_article:" + url
 
     # extracts all links to news article from home page to be later accessed for article extraction
     urlList = []
