@@ -32,12 +32,17 @@ def members():
 
     # extracts all links to news article from home page to be later accessed for article extraction
     urlList = []
+    allArticles = []
     for a in doc.find_all('a', href=True, ):
         if (a['href'].find('/news/world') != -1):
             print("Found the URL:", a['href'])
             urlList.append(a['href'])
 
-    return json.dumps(extract_article("https://www.cbc.ca" + urlList[4]))
+    for news_article_links in urlList:
+        allArticles.append(extract_article(
+            "https://www.cbc.ca" + news_article_links))
+    print(allArticles)
+    return json.dumps(allArticles)
 
 
 if __name__ == "__main__":

@@ -6,7 +6,7 @@ function App() {
   const [data, setData] = useState(null);
   const [prompt, setPrompt] = useState("");
   const [prediction, setPrediction] = useState("");
-  const [article, setArticle] = useState("");
+  const [article, setArticle] = useState([]);
 
   // Update prompt variable when handleChange is called
   const handleChange = (e) => {
@@ -66,6 +66,14 @@ function App() {
         <h1>Result:</h1>
         <h3>{!data ? "Question will appear here." : data}</h3>
         <h3>{!prediction ? "Category" : prediction}</h3>
+        {article?.map((item) => {
+          return (
+            <div>
+              <h1>--------------------ARTICLE--------------------</h1>
+              <h5>{item}</h5>
+            </div>
+          );
+        })}
       </header>
     </div>
   );
