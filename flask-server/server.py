@@ -37,11 +37,9 @@ def members():
         if (a['href'].find('/news/world') != -1):
             print("Found the URL:", a['href'])
             urlList.append(a['href'])
+            allArticles.append(extract_article(
+                "https://www.cbc.ca" + a['href']))
 
-    for news_article_links in urlList:
-        allArticles.append(extract_article(
-            "https://www.cbc.ca" + news_article_links))
-    print(allArticles)
     return json.dumps(allArticles)
 
 
