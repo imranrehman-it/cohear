@@ -26,7 +26,7 @@ def members():
             if (a.text.find("Audience Relations, CBC") != -1):
                 break
             else:
-                article = article + a.text
+                article = article + a.text + "link_to_article:" + url
 
         return article
 
@@ -37,6 +37,7 @@ def members():
         if (a['href'].find('/news/world') != -1):
             print("Found the URL:", a['href'])
             urlList.append(a['href'])
+
             allArticles.append(extract_article(
                 "https://www.cbc.ca" + a['href']))
 
