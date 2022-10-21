@@ -28,7 +28,7 @@ def members():
             else:
                 article = article + a.text
 
-        return article
+        return article + "link_to_article:" + url
 
     # extracts all links to news article from home page to be later accessed for article extraction
     urlList = []
@@ -37,6 +37,7 @@ def members():
         if (a['href'].find('/news/world') != -1):
             print("Found the URL:", a['href'])
             urlList.append(a['href'])
+
             allArticles.append(extract_article(
                 "https://www.cbc.ca" + a['href']))
 

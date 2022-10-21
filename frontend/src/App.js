@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-
+import { NewsCard } from "./components/NewsCard";
 function App() {
   const API_URL = "http://localhost:3001";
 
   const [data, setData] = useState(null);
   const [prompt, setPrompt] = useState("");
   const [prediction, setPrediction] = useState("");
-  const [article, setArticle] = useState([]);
+  const [articles, setArticles] = useState([]);
+  const [summary, setSummary] = useState(null);
 
   // Update prompt variable when handleChange is called
   const handleChange = (e) => {
@@ -15,12 +16,10 @@ function App() {
 
   useEffect(() => {
     setData(null);
-    setArticle(null);
     fetch(`http://127.0.0.1:5000/members`)
       .then((res) => res.json())
       .then((data) => {
-        setArticle(data);
-        console.log(data);
+        setArticles(data);
       });
   }, []);
 
@@ -66,13 +65,8 @@ function App() {
         <h1>Result:</h1>
         <h3>{!data ? "Question will appear here." : data}</h3>
         <h3>{!prediction ? "Category" : prediction}</h3>
-        {article?.map((item) => {
-          return (
-            <div>
-              <h1>--------------------ARTICLE--------------------</h1>
-              <h5>{item}</h5>
-            </div>
-          );
+        {articles?.map((article) => {
+          return <NewsCard article={String(article)} />;
         })}
       </header>
     </div>
