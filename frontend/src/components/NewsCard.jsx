@@ -2,15 +2,15 @@ import React from "react";
 import { useState, useEffect } from "react";
 const API_URL = "http://localhost:3001";
 export const NewsCard = ({ article }) => {
+  const [title, setTitle] = useState(null);
   const [summary, setSummary] = useState(null);
   const [classification, setClassification] = useState(null);
-  const [url, setUrl] = useState(null);
 
   const handleSummarize = async (e) => {
-    fetch(`${API_URL}/summarize?prompt=${article}`)
+    await fetch(`${API_URL}/summarize?prompt=${article}`)
       .then((res) => res.json())
       .then((data) => {
-        setSummary(`${data.generations[0].text.slice(0, -2)}`);
+        setTitle(`${data.generations[0].text.slice(0, -2)}`);
         fetch(
           `${API_URL}/classify?prompt=${data.generations[0].text.slice(0, -2)}`
         )
@@ -30,20 +30,34 @@ export const NewsCard = ({ article }) => {
     return url;
   };
 
+  const longSummary = async (e) => {
+    await fetch(`${API_URL}/summarize-long?prompt=${article}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setSummary(`${data.generations[0].text.slice(0, -2)}`);
+      });
+  };
+
   useEffect(() => {
-    handleSummarize(article);
+    handleSummarize();
     extractUrlFromArticle(article);
+    longSummary();
   }, []);
 
   return (
     <div>
-      <h1>--------------------ARTICLE--------------------</h1>
-      <h1>{!summary ? "Title will appear here" : summary}</h1>
-      <h3>{!classification ? "Category" : classification}</h3>
-      <h5>{article}</h5>
-      <form action={extractUrlFromArticle(article)}>
-        <input type="submit" value="Learn More" />
-      </form>
+      {!summary ? (
+        <div></div>
+      ) : (
+        <>
+          <h1>{!title ? "Title will appear here" : title}</h1>
+          <h3>{!classification ? "Category" : classification}</h3>
+          <h5>{!summary ? "Category" : summary}</h5>
+          <form action={extractUrlFromArticle(article)}>
+            <input type="submit" value="Learn More" />
+          </form>
+        </>
+      )}
     </div>
   );
 };
