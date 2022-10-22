@@ -39,20 +39,25 @@ export const NewsCard = ({ article }) => {
   };
 
   useEffect(() => {
-    handleSummarize(article);
+    handleSummarize();
     extractUrlFromArticle(article);
     longSummary();
   }, []);
 
   return (
     <div>
-      <h1>--------------------ARTICLE--------------------</h1>
-      <h1>{!title ? "Title will appear here" : title}</h1>
-      <h3>{!classification ? "Category" : classification}</h3>
-      <h5>{!summary ? "Category" : summary}</h5>
-      <form action={extractUrlFromArticle(article)}>
-        <input type="submit" value="Learn More" />
-      </form>
+      {!summary ? (
+        <div></div>
+      ) : (
+        <>
+          <h1>{!title ? "Title will appear here" : title}</h1>
+          <h3>{!classification ? "Category" : classification}</h3>
+          <h5>{!summary ? "Category" : summary}</h5>
+          <form action={extractUrlFromArticle(article)}>
+            <input type="submit" value="Learn More" />
+          </form>
+        </>
+      )}
     </div>
   );
 };
