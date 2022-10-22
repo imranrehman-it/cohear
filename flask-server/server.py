@@ -13,7 +13,7 @@ CORS(app)
 @app.route('/worldnews')
 def worldnews():
     url = "https://www.cbc.ca/news/world"
-
+    numOfArticles = 0
     result = requests.get(url)
     doc = BeautifulSoup(result.text, "html.parser")
 
@@ -35,12 +35,15 @@ def worldnews():
     urlList = []
     allArticles = []
     for a in doc.find_all('a', href=True, ):
-        if (a['href'].find('/news/world') != -1):
+        if (a['href'].find('/news/world') != -1 and numOfArticles < 10):
+
             print("Found the URL:", a['href'])
             urlList.append(a['href'])
 
             allArticles.append(extract_article(
                 "https://www.cbc.ca" + a['href']))
+
+            numOfArticles = numOfArticles + 1
 
     return json.dumps(allArticles)
 
