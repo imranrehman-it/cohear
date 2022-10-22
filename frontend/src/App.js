@@ -16,7 +16,7 @@ function App() {
 
   useEffect(() => {
     setData(null);
-    fetch(`http://127.0.0.1:5000/members`)
+    fetch(`http://127.0.0.1:5000/politicsnews`)
       .then((res) => res.json())
       .then((data) => {
         setArticles(data);
