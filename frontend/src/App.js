@@ -29,18 +29,10 @@ function App() {
     e.preventDefault();
     setData(null);
     setPrediction(null);
-    fetch(`${API_URL}/summarize?prompt=${prompt}`)
+    fetch(`${API_URL}/summarize-long?prompt=${prompt}`)
       .then((res) => res.json())
       .then((data) => {
         setData(`${data.generations[0].text.slice(0, -2)}`);
-
-        fetch(
-          `${API_URL}/classify?prompt=${data.generations[0].text.slice(0, -2)}`
-        )
-          .then((res) => res.json())
-          .then((data) =>
-            setPrediction(JSON.stringify(data.classifications[0].prediction))
-          );
       });
   };
 

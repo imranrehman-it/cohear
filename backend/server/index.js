@@ -40,6 +40,22 @@ app.get("/summarize", async (req, res) => {
   res.json(response.body);
 });
 
+app.get("/summarize-long", async (req, res) => {
+  const response = await cohere.generate({
+    model: "xlarge",
+    prompt: `Passage: Is Wordle getting tougher to solve? Players seem to be convinced that the game has gotten harder in recent weeks ever since The New York Times bought it from developer Josh Wardle in late January. The Times has come forward and shared that this likely isnt the case. That said, the NYT did mess with the back end code a bit, removing some offensive and sexual language, as well as some obscure words There is a viral thread claiming that a confirmation bias was at play. One Twitter user went so far as to claim the game has gone to “the dusty section of the dictionary” to find its latest words.\n\nTLDR: The New York Times bought Wordle from developer Josh Wardle in January. Users claim the puzzle game has gotten harder since then. The Times says it likely isnt the case. It did mess with the code a bit, removing some offensive and sexual language.\n--\nPassage: ArtificialIvan, a seven-year-old, London-based payment and expense management software company, has raised $190 million in Series C funding led by ARG Global, with participation from D9 Capital Group and Boulder Capital. Earlier backers also joined the round, including Hilton Group, Roxanne Capital, Paved Roads Ventures, Brook Partners, and Plato Capital.\n\nTLDR: Ivan, a London-based payment and expense management software company, has raised $190 million in Series C funding. The round was led by ARG Global with participation from D9 Capital Group and Boulder Capital. Earlier backers include Hilton Group, Roxanne Capital, Paved Roads Ventures and Brook Partners.\n--\nPassage: The National Weather Service announced Tuesday that a freeze warning is in effect for the Bay Area, with freezing temperatures expected in these areas overnight. Temperatures could fall into the mid-20s to low 30s in some areas. In anticipation of the hard freeze, the weather service warns people to take action now.\n\nTLDR: The National Weather Service has issued a freeze warning for the Bay Area. Temperatures could fall into the mid-20s to low 30s overnight. In anticipation of the hard freeze, the weather service warns people to take action now.\n--\nPassage: ${req.query.prompt}\n\nTLDR:`,
+    max_tokens: 200,
+    temperature: 0.8,
+    k: 0,
+    p: 1,
+    frequency_penalty: 0,
+    presence_penalty: 0,
+    stop_sequences: ["--"],
+    return_likelihoods: "NONE",
+  });
+  res.json(response.body);
+});
+
 app.get("/classify", async (req, res) => {
   const response = await cohere.classify({
     model: "large",
