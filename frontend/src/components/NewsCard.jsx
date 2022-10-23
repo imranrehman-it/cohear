@@ -10,9 +10,9 @@ export const NewsCard = ({ article }) => {
     await fetch(`${API_URL}/summarize?prompt=${article}`)
       .then((res) => res.json())
       .then((data) => {
-        setTitle(`${data.generations[0].text.slice(0, -2)}`);
+        setTitle(`${data.generations[0].text.slice(0, -1)}`);
         fetch(
-          `${API_URL}/classify?prompt=${data.generations[0].text.slice(0, -2)}`
+          `${API_URL}/classify?prompt=${data.generations[0].text.slice(0, -1)}`
         )
           .then((res) => res.json())
           .then((data) =>
