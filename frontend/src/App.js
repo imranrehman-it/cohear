@@ -6,7 +6,10 @@ function App() {
   const [data, setData] = useState(null);
   const [prompt, setPrompt] = useState("");
   const [prediction, setPrediction] = useState("");
-  const [articles, setArticles] = useState([]);
+  const [worldNews, setWorldNews] = useState([]);
+  const [canadaNews, setCanadaNews] = useState([]);
+  const [politicsNews, setPoliticsNews] = useState([]);
+  const [climateNews, setClimateNews] = useState([]);
   const [summary, setSummary] = useState(null);
 
   // Update prompt variable when handleChange is called
@@ -15,11 +18,28 @@ function App() {
   };
 
   useEffect(() => {
-    setData(null);
+    fetch(`http://127.0.0.1:5000/worldnews`)
+      .then((res) => res.json())
+      .then((data) => {
+        setWorldNews(data);
+      });
+
+    fetch(`http://127.0.0.1:5000/canadanews`)
+      .then((res) => res.json())
+      .then((data) => {
+        setCanadaNews(data);
+      });
+
     fetch(`http://127.0.0.1:5000/politicsnews`)
       .then((res) => res.json())
       .then((data) => {
-        setArticles(data);
+        setPoliticsNews(data);
+      });
+
+    fetch(`http://127.0.0.1:5000/climatenews`)
+      .then((res) => res.json())
+      .then((data) => {
+        setClimateNews(data);
       });
   }, []);
 
@@ -57,7 +77,16 @@ function App() {
         <h1>Result:</h1>
         <h3>{!data ? "Question will appear here." : data}</h3>
         <h3>{!prediction ? "Category" : prediction}</h3>
-        {articles?.map((article) => {
+        <h1>Worlds News</h1>
+        {worldNews?.map((article) => {
+          return <NewsCard article={String(article)} />;
+        })}
+        <h1>Canada News</h1>
+        {canadaNews?.map((article) => {
+          return <NewsCard article={String(article)} />;
+        })}
+        <h1>Politics News</h1>
+        {politicsNews?.map((article) => {
           return <NewsCard article={String(article)} />;
         })}
       </header>
